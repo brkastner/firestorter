@@ -1,10 +1,4 @@
-import {
-	runInAction,
-	autorun,
-	computed,
-	decorate,
-	IObservableArray
-} from "mobx";
+import {runInAction, autorun, computed, IObservableArray, makeObservable} from "mobx";
 import { firestore } from "firebase";
 import Collection from "./Collection";
 import Document from "./Document";
@@ -125,6 +119,8 @@ class AggregateCollection<
 		this.collectionRecycleMap = {};
 		this.documentRecycleMap = {};
 		this.ctx = options.context;
+
+		makeObservable(this, { docs: computed });
 	}
 
 	/**
@@ -339,7 +335,5 @@ class AggregateCollection<
 		}
 	}
 }
-
-decorate(AggregateCollection, { docs: computed });
 
 export default AggregateCollection;
